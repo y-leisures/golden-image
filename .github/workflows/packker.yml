@@ -1,0 +1,19 @@
+name: Packer
+
+on:
+  - pull_request
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use latest Packer
+        uses: hashicorp-contrib/setup-packer@v2
+      - name: Validate configuration files
+        run: packer validate .
+#       - name: Build image from template
+#         run: packer build TEMPLATE
