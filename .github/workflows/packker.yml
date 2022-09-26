@@ -13,7 +13,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Use latest Packer
         uses: hashicorp-contrib/setup-packer@v2
+        with:
+          packer-version: 1.8.3
       - name: Validate configuration files
-        run: packer validate .
+        run: |
+          packer init .
+          packer validate .
 #       - name: Build image from template
 #         run: packer build TEMPLATE
