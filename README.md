@@ -50,3 +50,9 @@ Build 'learn-packer.amazon-ebs.ubuntu' finished after 3 minutes 732 milliseconds
 --> learn-packer.amazon-ebs.ubuntu: AMIs were created:
 ap-northeast-1: ami-0576e64bfbb71fb78
 ```
+
+## Provision - Shell provisioner
+
+[Provision \| Packer \- HashiCorp Learn](https://learn.hashicorp.com/tutorials/packer/aws-get-started-provision?in=packer/aws-get-started)
+
+- [Shell \- Provisioners \| Packer by HashiCorp](https://www.packer.io/docs/provisioners/shell)
