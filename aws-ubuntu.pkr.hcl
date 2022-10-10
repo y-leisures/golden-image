@@ -7,8 +7,18 @@ packer {
   }
 }
 
+variable "ami_prefix" {
+  type    = string
+  default = "learn-packer-linux-aws-docker-local"
+}
+
+locals {
+  timestamp = regex_replace(timestamp(), "[- TZ:]", "")
+}
+
+
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "learn-packer-linux-aws-docker"
+  ami_name      = "${var.ami_prefix}-${local.timestamp}"
   instance_type = "t2.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
@@ -63,4 +73,11 @@ build {
     ]
   }
 
+  post-processor "manifest" {
+    output     = "manifest.json"
+    strip_path = true
+    #    custom_data = {
+    #      my_custom_data = "example"
+    #    }
+  }
 }
