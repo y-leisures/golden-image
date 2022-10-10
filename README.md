@@ -15,7 +15,7 @@ $ export AWS_PROFILE=serverless ;\
   export AWS_ACCESS_KEY_ID="$(aws     configure --profile $AWS_PROFILE get aws_access_key_id)" ;\
   export AWS_SECRET_ACCESS_KEY="$(aws configure --profile $AWS_PROFILE get aws_secret_access_key)" ;\
   echo $AWS_DEFAULT_REGION $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
-  
+
 $ packer build .
 learn-packer.amazon-ebs.ubuntu: output will be in this color.
 
