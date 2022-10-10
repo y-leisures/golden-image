@@ -9,12 +9,6 @@ on:
     branches:
       - master
 
-aliases:
-  install_packer: &install_packer
-        name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
-        uses: hashicorp-contrib/setup-packer@v2
-        with:
-          packer-version: 1.8.3
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,7 +16,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - *install_packer
+      - name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
+        uses: hashicorp-contrib/setup-packer@v2
+        with:
+          packer-version: 1.8.3
       - name: Validate configuration files
         run: |
           packer init .

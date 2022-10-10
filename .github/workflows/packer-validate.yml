@@ -1,0 +1,21 @@
+name: Packer file validation
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: packer
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
+        uses: hashicorp-contrib/setup-packer@v2
+        with:
+          packer-version: 1.8.3
+      - name: Validate configuration files
+        run: |
+          packer init .
+          packer validate .
