@@ -57,3 +57,7 @@ ap-northeast-1: ami-0576e64bfbb71fb78
 [Provision \| Packer \- HashiCorp Learn](https://learn.hashicorp.com/tutorials/packer/aws-get-started-provision?in=packer/aws-get-started)
 
 - [Shell \- Provisioners \| Packer by HashiCorp](https://www.packer.io/docs/provisioners/shell)
+
+## Documents
+
+- [Manifest - Post-Processors | Packer by HashiCorp](https://www.packer.io/docs/post-processors/manifest)
