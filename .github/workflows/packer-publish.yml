@@ -8,6 +8,10 @@ on:
   push:
     branches:
       - master
+    tags:
+      - v2*.**
+    paths:
+      - '**.hcl'
 
 jobs:
   build:
