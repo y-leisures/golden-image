@@ -2,6 +2,7 @@
 
 ## Tutorial
 
+- [Getting Started with AWS | Packer - HashiCorp Learn](https://learn.hashicorp.com/collections/packer/aws-get-started)
 - https://learn.hashicorp.com/tutorials/packer/aws-get-started-build-image?in=packer/aws-get-started
   - [Amazon AMI \- Builders \| Packer by HashiCorp](https://www.packer.io/plugins/builders/amazon)
   - [Ubuntu Amazon EC2 AMI Finder](https://cloud-images.ubuntu.com/locator/ec2/)
