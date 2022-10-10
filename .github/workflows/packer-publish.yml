@@ -8,6 +8,13 @@ on:
   push:
     branches:
       - master
+    tags:
+      - v2*.**
+#    paths:
+#      - '**.hcl'
+on:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -30,6 +37,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+  cleanup_ami:
+    if: ${{ !startsWith(github.head_ref, 'releases/') }}
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: packer
+    steps:
       - name: Cleanup an ami
         run: |
           AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
