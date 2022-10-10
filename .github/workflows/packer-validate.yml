@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: packer
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
