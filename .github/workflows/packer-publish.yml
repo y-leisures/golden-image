@@ -10,9 +10,6 @@ on:
       - master
     tags:
       - v2*.**
-#    paths:
-#      - '**.hcl'
-on:
   release:
     types: [published]
 
