@@ -34,6 +34,12 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: packer-build-results
+          path: manifest.json
+          retention-days: 1
 
   cleanup_ami:
     if: false
@@ -41,6 +47,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: packer
     steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: packer-build-results
       - name: Cleanup an ami
         run: |
           AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
