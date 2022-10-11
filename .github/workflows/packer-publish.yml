@@ -42,7 +42,7 @@ jobs:
           retention-days: 1
 
   cleanup_ami:
-    if: false
+    if: ${{ ${GITHUB_REF##*/} =! master }}
     needs: [build]
     runs-on: ubuntu-latest
     environment: packer
