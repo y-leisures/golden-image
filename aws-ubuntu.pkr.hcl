@@ -45,6 +45,16 @@ build {
       "curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-jammy-td-agent4.sh | sh"
     ]
   }
+  
+  provisioner "shell" {
+    inline = [
+      "echo Installing base-packages",
+      "sudo apt-get update",
+      "until sudo apt-get install -qq -y git vim zsh tree expect language-pack-ja debian-goodies; do echo 'Retry' && sleep 6; done",
+      "sudo echo `date`' - packer provisioned this AMI' > /home/ubuntu/packer_provisioners"
+    ]
+  }  
+  
   provisioner "shell" {
     environment_vars = [
       "FOO=hello world",
