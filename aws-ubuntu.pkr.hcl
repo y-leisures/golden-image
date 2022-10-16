@@ -60,10 +60,10 @@ build {
       "FOO=hello world",
     ]
     inline = [
-      "echo Installing Redis",
+      "echo Installing Nginx, Redis and other ones",
       "sleep 30",
       "sudo apt-get update",
-      "sudo apt-get install -qq -y redis-server",
+      "sudo apt-get install -qq -y nginx redis-server awscli",
       "echo \"FOO is $FOO\" > example.txt",
       "until sudo apt-get install -qq -y build-essential; do echo 'Retry' && sleep 6; done",
       "sudo echo `date`' - packer provisioned this AMI' > /home/ubuntu/packer_provisioners"
