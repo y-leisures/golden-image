@@ -52,11 +52,13 @@ Build 'learn-packer.amazon-ebs.ubuntu' finished after 3 minutes 732 milliseconds
 ap-northeast-1: ami-0576e64bfbb71fb78
 ```
 
-## Provision - Shell provisioner
+## Provisioners
 
 [Provision \| Packer \- HashiCorp Learn](https://learn.hashicorp.com/tutorials/packer/aws-get-started-provision?in=packer/aws-get-started)
 
 - [Shell \- Provisioners \| Packer by HashiCorp](https://www.packer.io/docs/provisioners/shell)
+- [Ansible \- Provisioners \| Packer by HashiCorp](https://www.packer.io/plugins/provisioners/ansible/ansible)
+- [Ansible Local \- Provisioners \| Packer by HashiCorp](https://www.packer.io/plugins/provisioners/ansible/ansible-local)
 
 ## Documents
 
