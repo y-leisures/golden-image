@@ -9,7 +9,7 @@ packer {
 
 variable "ami_prefix" {
   type    = string
-  default = "learn-packer-linux-aws-docker-local"
+  default = "bms-web"
 }
 
 locals {
@@ -41,46 +41,20 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo \"Installing fluentd (td-agent)\"",
-      "curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-jammy-td-agent4.sh | sh"
+      "echo Installing ansible packages",
+      "sudo apt-get update",
+      "sudo apt install software-properties-common",
+      "sudo apt-add-repository --yes --update ppa:ansible/ansible",
+      "until sudo apt-get install -y -qq ansible; do echo 'Retry' && sleep 6; done",
+      "ansible-galaxy collection install community.general"
     ]
   }
-  
-  provisioner "shell" {
-    inline = [
-      "echo Installing base-packages",
-      "sudo apt-get update",
-      "until sudo apt-get install -qq -y git vim zsh tree expect language-pack-ja debian-goodies; do echo 'Retry' && sleep 6; done",
-      "sudo echo `date`' - packer provisioned this AMI' > /home/ubuntu/packer_provisioners"
-    ]
-  }  
-  
-  provisioner "shell" {
-    environment_vars = [
-      "FOO=hello world",
-    ]
-    inline = [
-      "echo Installing Nginx, Redis and other ones",
-      "sleep 30",
-      "sudo apt-get update",
-      "sudo apt-get install -qq -y nginx redis-server awscli",
-      "echo \"FOO is $FOO\" > example.txt",
-      "until sudo apt-get install -qq -y build-essential; do echo 'Retry' && sleep 6; done",
-      "sudo echo `date`' - packer provisioned this AMI' > /home/ubuntu/packer_provisioners"
-    ]
-  }
-
-  provisioner "shell" {
-    environment_vars = [
-    ]
-    inline = [
-      "echo Installing docker",
-      "sudo apt-get update && sudo apt-get install -qq -y ca-certificates curl gnupg lsb-release",
-      "sudo mkdir -p /etc/apt/keyrings && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
-      "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" > docker.list && sudo mv docker.list /etc/apt/sources.list.d/docker.list",
-      "sudo apt-get update -y && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin",
-      "sudo ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose",
-      "sudo echo `date`' - packer provisioned this AMI' > /home/ubuntu/packer_provisioners"
+  provisioner "ansible-local" {
+    playbook_file = "./ansible/playbook.yaml"
+    # extra_arguments = ["--extra-vars"]
+    role_paths = [
+      "ansible/roles/common",
+      "ansible/roles/web",
     ]
   }
 
