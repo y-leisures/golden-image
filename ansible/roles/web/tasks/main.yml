@@ -133,6 +133,12 @@
     backup: true
   # notify: "restart bms.service"
 
+- name: Stop nginx.service # NOTE: We use the nginx container instead.
+  systemd:
+    name:    nginx.service
+    state:   stopped
+    enabled: no
+
 # - name: Start bms.service
 #   systemd:
 #     name:    bms.service
