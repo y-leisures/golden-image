@@ -13,6 +13,9 @@ on:
       - master
     tags:
       - v2*.**
+    paths-ignore:
+      - '.github'   
+      - README.md
   release:
     types: [published]
 
