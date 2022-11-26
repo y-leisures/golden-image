@@ -14,7 +14,7 @@ on:
     tags:
       - v2*.**
     paths-ignore:
-      - '.github'   
+      - '.github/**/*'   
       - README.md
   release:
     types: [published]
