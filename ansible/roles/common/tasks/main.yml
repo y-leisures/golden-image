@@ -101,13 +101,14 @@
     state: present
     key: https://github.com/yuokada.keys
 
-- name: "Create users: ryoksmt"
+- name: "Create users: arima"
   user:
-    name: ryoksmt
+    name: arima
     comment: Arima
     shell: /bin/bash
     uid: 505
-    password: '$6$7cEKGqyAgO4CgXSR$wh1PgL4nGJiAjf9QQI0l.NDFh7FasOL9bMtRs2HEji6vEmcMIbcHxIhqhiG5notvT3s2RH9hp9ty/MCB/2yXI1'
+    # password: '$6$7cEKGqyAgO4CgXSR$wh1PgL4nGJiAjf9QQI0l.NDFh7FasOL9bMtRs2HEji6vEmcMIbcHxIhqhiG5notvT3s2RH9hp9ty/MCB/2yXI1'
+    password: '$y$j9T$s5zVPgP7sMfapFOcFKPtl1$H1eLqsJ6Z8EQSxVnTHzsOskInovf64ymqJFbOCWF7nB'
     groups:
       - staff
       - users
