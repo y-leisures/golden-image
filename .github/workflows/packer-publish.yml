@@ -1,6 +1,7 @@
 name: Packer
 
 on:
+  workflow_dispatch: # Allow running on-demand
   pull_request:
     # see: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-based-on-the-head-or-base-branch-of-a-pull-request
     branches:
