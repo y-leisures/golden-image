@@ -1,7 +1,16 @@
 ---
-- name: Start fluentd setup tasks
-  ansible.builtin.debug:
-    msg: "Start fluentd setup tasks"
+  - name: Start fluentd setup tasks
+    ansible.builtin.debug:
+      msg: "Start fluentd setup tasks"
 
-- name: Install fluentd package
-  ansible.builtin.shell: curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-jammy-td-agent4.sh | sh
+  - name: Install fluentd package
+    ansible.builtin.shell: curl -fsSL https://toolbelt.treasuredata.com/sh/install-ubuntu-jammy-td-agent4.sh | sh
+
+  - name: Add td-agent to some groups
+    user:
+      name: "td-agent"
+      groups:
+        - staff
+        - users
+        - td-agent
+      append: yes
