@@ -14,6 +14,14 @@
       group: ubuntu
       recurse: yes
 
+  - name: Change a symlink for /home/ubuntu/mysqldump_and_save.sh
+    file:
+      src: "{{ backup_repository_path }}/mysqldump_and_save.sh"
+      dest: '/home/ubuntu/mysqldump_and_save.sh'
+      owner: ubuntu
+      group: ubuntu
+      state: link
+
   - name: Put .env to /home/ubuntu
     template:
       src: ".env.j2"
