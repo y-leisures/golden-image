@@ -95,6 +95,7 @@
       mode: 0777
       recurse: no
     with_items:
+      - {directory_name: "/opt/bms/bin"}
       - {directory_name: "/opt/bms/log"}
       - {directory_name: "/opt/bms/log/nginx"}
       - {directory_name: "/opt/bms/cache"}
@@ -113,10 +114,10 @@
       - {src_name: "Dockerfile.nginx.j2", dest_name: "/opt/bms/nginx/Dockerfile.nginx"}
       - {src_name: "nginx.conf.j2", dest_name: "/opt/bms/nginx/nginx.conf"}
 
-  - name: Put /opt/bms/ecr-login.sh
+  - name: Put /opt/bms/bin/ecr-login.sh
     ansible.builtin.copy:
       src: ecr-login.sh
-      dest: /opt/bms/docker-compose.yml
+      dest: /opt/bms/bin/ecr-login.sh
       owner: ubuntu
       group: ubuntu
       mode: "0755"
