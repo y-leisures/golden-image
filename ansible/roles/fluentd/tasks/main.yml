@@ -1,0 +1,28 @@
+---
+  - name: Create /etc/td-agent/config.d directory
+    file:
+      path: /etc/td-agent/config.d
+      state: directory
+      owner: td-agent
+      group: td-agent
+      mode: 0775
+      recurse: yes
+
+  - name: Copy 001_nginx.conf in td-agent
+    copy:
+      src: 001_nginx.conf
+      dest: /etc/td-agent/config.d/001_nginx.conf
+      owner: td-agent
+      group: td-agent
+      mode: 0644
+
+  - name: Add "@include" directive
+    lineinfile:
+      path: /etc/td-agent/td-agent.conf
+      regexp: "^@include "
+      line: "@include config.d/*.conf"
+
+  - name: Restart td-agent
+    ansible.builtin.systemd:
+      name: td-agent.service
+      state: restarted

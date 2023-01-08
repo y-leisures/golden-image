@@ -1,3 +1,4 @@
+---
 name: Packer
 
 on:
@@ -7,7 +8,7 @@ on:
     branches:
       - master
     paths-ignore:
-      - '.github/**/*'   
+      - ".github/**/*"
       - README.md
   push:
     branches:
@@ -15,7 +16,7 @@ on:
     tags:
       - v2*.**
     paths-ignore:
-      - '.github/**/*'   
+      - ".github/**/*"
       - README.md
   release:
     types: [published]
@@ -27,7 +28,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
-      - name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
+      - name: Use latest Packer # see: https://github.com/marketplace/actions/setup-packer
         uses: hashicorp-contrib/setup-packer@v2
         with:
           packer-version: 1.8.3
@@ -41,7 +42,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      - name: 'Upload Artifact'
+      - name: "Upload Artifact"
         uses: actions/upload-artifact@v3
         with:
           name: packer-build-results
@@ -49,7 +50,8 @@ jobs:
           retention-days: 1
 
   cleanup_ami:
-    if: ${GITHUB_REF##*/} =! "master"
+    # if: ${GITHUB_REF##*/} =! "master"
+    if: github.ref == 'refs/heads/master'
     needs: [build]
     runs-on: ubuntu-latest
     environment: packer
