@@ -19,7 +19,7 @@ locals {
 
 source "amazon-ebs" "ubuntu" {
   ami_name      = "${var.ami_prefix}-${local.timestamp}"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
     filters = {
