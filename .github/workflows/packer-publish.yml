@@ -1,3 +1,4 @@
+---
 name: Packer
 
 on:
@@ -7,7 +8,7 @@ on:
     branches:
       - master
     paths-ignore:
-      - '.github/**/*'   
+      - '.github/**/*'
       - README.md
   push:
     branches:
@@ -15,7 +16,7 @@ on:
     tags:
       - v2*.**
     paths-ignore:
-      - '.github/**/*'   
+      - '.github/**/*'
       - README.md
   release:
     types: [published]
