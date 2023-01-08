@@ -12,21 +12,25 @@
       path: "{{ backup_repository_path }}"
       owner: ubuntu
       group: ubuntu
-      recursive: yes
+      recurse: yes
 
-  - name: Put /opt/bms/ecr-login.sh
-    ansible.builtin.copy:
-      src: ecr-login.sh
-      dest: /opt/bms/docker-compose.yml
-      owner: ubuntu
-      group: ubuntu
-      mode: "0755"
-
-  - name: Put /etc/systemd/system/docker-compose.service
+  - name: Put files for systemd
     template:
-      src: bms.service.j2
-      dest: /etc/systemd/system/bms.service
+      src: "{{ item.src }}.j2"
+      dest: "/etc/systemd/system/{{ item.src }}"
       owner: ubuntu
       group: ubuntu
       mode: 0644
-      backup: true
+    with_items:
+      - {src: "db-backup.service"}
+      - {src: "db-backup.timer"}
+      - {src: "git-db-backup.service"}
+      - {src: "git-db-backup.timer"}
+
+  - name: Enable timer services
+    ansible.builtin.systemd:
+      name: "{{ item.service }}"
+      enabled: yes
+    with_items:
+      - {service: "db-backup.timer"}
+      - {service: "git-db-backup.timer"}

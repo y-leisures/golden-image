@@ -1,0 +1,13 @@
+[Unit]
+Description=Daily git-push job for git-db-backup.service
+
+[Timer]
+# daily
+OnCalendar=*-*-* 17:30:00
+# hourly
+# OnCalendar=*-*-* *:00:00
+Persistent=false
+
+
+[Install]
+WantedBy=multi-user.target
