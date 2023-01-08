@@ -1,0 +1,32 @@
+---
+  - name: "start DB backup scripts setting"
+    debug:
+
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: "{{ backup_repository }}"
+      dest: "{{ backup_repository_path }}"
+
+  - name: Change ownership/group for the git repository
+    file:
+      path: "{{ backup_repository_path }}"
+      owner: ubuntu
+      group: ubuntu
+      recursive: yes
+
+  - name: Put /opt/bms/ecr-login.sh
+    ansible.builtin.copy:
+      src: ecr-login.sh
+      dest: /opt/bms/docker-compose.yml
+      owner: ubuntu
+      group: ubuntu
+      mode: "0755"
+
+  - name: Put /etc/systemd/system/docker-compose.service
+    template:
+      src: bms.service.j2
+      dest: /etc/systemd/system/bms.service
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+      backup: true

@@ -1,0 +1,7 @@
+---
+mysql_root_password: 'mysqlroot'
+mysql_database: 'bms'
+
+# git repository
+backup_repository: https://gist.github.com/e79d503f5dabdfb4f52f59543c3f8f7a.git
+backup_repository_path: /home/ubuntu/bms-backup

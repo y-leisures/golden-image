@@ -56,6 +56,7 @@ build {
       "ansible/roles/common",
       "ansible/roles/web",
       "ansible/roles/fluentd",
+      "ansible/roles/db_backup",
     ]
   }
 
