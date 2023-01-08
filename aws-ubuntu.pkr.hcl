@@ -55,6 +55,7 @@ build {
     role_paths = [
       "ansible/roles/common",
       "ansible/roles/web",
+      "ansible/roles/fluentd",
     ]
   }
 
