@@ -40,8 +40,8 @@
     with_items:
       - {src: "db-backup.service"}
       - {src: "db-backup.timer"}
-      - {src: "git-db-backup.service"}
-      - {src: "git-db-backup.timer"}
+      # - {src: "git-db-backup.service"}
+      # - {src: "git-db-backup.timer"}
 
   - name: Enable timer services
     ansible.builtin.systemd:
@@ -49,4 +49,4 @@
       enabled: yes
     with_items:
       - {service: "db-backup.timer"}
-      - {service: "git-db-backup.timer"}
+      # - {service: "git-db-backup.timer"}
