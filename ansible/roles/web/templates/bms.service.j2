@@ -11,6 +11,7 @@ PrivateTmp=true
 Type=simple
 # PIDFile=/var/run/notebook/notebook.pid
 # EnvironmentFile=/etc/default/notebook
+ExecStartPre=/opt/bms/ecr-login.sh
 ExecStart=/usr/local/bin/docker-compose up --abort-on-container-exit
 Restart=always
 RestartSec=120s
