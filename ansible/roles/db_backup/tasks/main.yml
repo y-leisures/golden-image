@@ -1,0 +1,52 @@
+---
+  - name: "start DB backup scripts setting"
+    debug:
+
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: "{{ backup_repository }}"
+      dest: "{{ backup_repository_path }}"
+
+  - name: Change ownership/group for the git repository
+    file:
+      path: "{{ backup_repository_path }}"
+      owner: ubuntu
+      group: ubuntu
+      recurse: yes
+
+  - name: Change a symlink for /home/ubuntu/mysqldump_and_save.sh
+    file:
+      src: "{{ backup_repository_path }}/mysqldump_and_save.sh"
+      dest: '/home/ubuntu/mysqldump_and_save.sh'
+      owner: ubuntu
+      group: ubuntu
+      state: link
+
+  - name: Put .env to /home/ubuntu
+    template:
+      src: ".env.j2"
+      dest: "/home/ubuntu/.env"
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+
+  - name: Put files for systemd
+    template:
+      src: "{{ item.src }}.j2"
+      dest: "/etc/systemd/system/{{ item.src }}"
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+    with_items:
+      - {src: "db-backup.service"}
+      - {src: "db-backup.timer"}
+      # - {src: "git-db-backup.service"}
+      # - {src: "git-db-backup.timer"}
+
+  - name: Enable timer services
+    ansible.builtin.systemd:
+      name: "{{ item.service }}"
+      enabled: yes
+    with_items:
+      - {service: "db-backup.timer"}
+      # - {service: "git-db-backup.timer"}

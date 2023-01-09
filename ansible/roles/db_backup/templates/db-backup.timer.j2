@@ -1,0 +1,12 @@
+[Unit]
+Description=Daily backup job for db-backup.service
+
+[Timer]
+# daily
+# OnCalendar=*-*-* 17:00:00
+# hourly
+OnCalendar=*-*-* *:00:00
+Persistent=false
+
+[Install]
+WantedBy=multi-user.target

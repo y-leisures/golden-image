@@ -1,0 +1,14 @@
+[Unit]
+Description=Database backup scripts
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/bms
+PrivateTmp=true
+Type=oneshot
+ExecStart=/home/ubuntu/mysqldump_and_save.sh
+ExecStartPost=/home/ubuntu/bms-backup/git-push-expect.sh
+
+[Install]
+WantedBy=multi-user.target
