@@ -5,8 +5,7 @@ packer_build:
 	packer build .
 
 packer_build_db:
-	# packer build -except=learn-packer.amazon-ebs.ubuntu .
-	packer build -only=single-db.amazon-ebs.ubuntu .
+	packer build -only=single-db.amazon-ebs.ubuntu-basic .
 
 list_ami:
 	aws ec2 describe-images --owner self | jq ".Images[].ImageId"
