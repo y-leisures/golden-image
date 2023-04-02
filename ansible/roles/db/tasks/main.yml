@@ -1,0 +1,96 @@
+---
+  - name: "start docker setting"
+    debug:
+
+  - name: Install docker, docker-compose packages
+    become: true
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - nginx
+        - awscli
+        - systemd-coredump
+
+# NOTE: Now working
+  - import_tasks: setup-docker-v2.yml
+
+  - name: Add ubuntu to docker group
+    user:
+    # name: "{{ ansible_user }}"
+      name: "ubuntu"
+      groups:
+        - docker
+      append: yes
+
+  - name: reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
+  - name: Create directories for docker-compose
+    file:
+      path: "{{ item.directory_name }}"
+      state: directory
+      owner: ubuntu
+      group: staff
+      mode: 0755
+      recurse: no
+    with_items:
+      - {directory_name: "/opt/bms/"}
+      - {directory_name: "/opt/bms/db"}
+      - {directory_name: "/opt/bms/nginx"}
+
+  - name: Create directories for the mysql container
+    file:
+      path: "{{ item.directory_name }}"
+      state: directory
+      owner: systemd-coredump
+      group: staff
+      mode: 0755
+      recurse: no
+    with_items:
+      - {directory_name: "/opt/bms/db/mysql_data"}
+
+  - name: Create directories for docker-compose with permission free
+    file:
+      path: "{{ item.directory_name }}"
+      state: directory
+      owner: ubuntu
+      group: staff
+      mode: 0777
+      recurse: no
+    with_items:
+      - {directory_name: "/opt/bms/bin"}
+      - {directory_name: "/opt/bms/log"}
+      - {directory_name: "/opt/bms/log/nginx"}
+      - {directory_name: "/opt/bms/cache"}
+      - {directory_name: "/opt/bms/cache/twig"}
+
+  - name: Put /opt/bms/bin/ecr-login.sh
+    ansible.builtin.copy:
+      src: ecr-login.sh
+      dest: /opt/bms/bin/ecr-login.sh
+      owner: ubuntu
+      group: ubuntu
+      mode: "0755"
+
+  - name: Put /opt/bms/docker-compose.yml
+    template:
+      src: docker-compose.yml.j2
+      dest: /opt/bms/docker-compose.yml
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+      backup: true
+  # notify: "restart bms.service"
+
+  - name: Put /etc/systemd/system/docker-compose.service
+    template:
+      src: bms.service.j2
+      dest: /etc/systemd/system/bms.service
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+      backup: true
+# notify: "restart bms.service"

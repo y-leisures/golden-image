@@ -42,7 +42,7 @@ build {
   provisioner "shell" {
     inline = [
       "echo Installing ansible packages",
-      "sudo apt-get update",
+      "until sudo apt-get update; do echo 'Retry' && sleep 6; done",
       "sudo apt install software-properties-common",
       "sudo apt-add-repository --yes --update ppa:ansible/ansible",
       "until sudo apt-get install -y -qq ansible; do echo 'Retry' && sleep 6; done",

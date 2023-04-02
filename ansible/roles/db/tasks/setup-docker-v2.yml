@@ -1,0 +1,67 @@
+---
+# NOTE: This task is just a check point task
+  - name: Start Docker setup tasks
+    ansible.builtin.debug:
+      msg: "Start Docker setup tasks"
+
+  - name: Install packages to install docker V2
+    become: true
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+
+  - name: Create directories for docker-compose
+    file:
+      path: "{{ item.directory_name }}"
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+      recurse: no
+    with_items:
+      - {directory_name: '/etc/apt/keyrings'}
+
+  # sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  # NOTE: Handle the above command
+  - name: Execute "curl -fsSL https://download.docker.com/linux/ubuntu/gpg"
+    ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+  - name: Create docker.list
+    copy:
+      dest: /etc/apt/sources.list.d/docker.list
+      owner: ubuntu
+      group: ubuntu
+      mode: 0644
+      content: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable"
+    #      "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" > docker.list && sudo mv docker.list /etc/apt/sources.list.d/docker.list",
+
+
+  - name: Install docker packages
+    become: true
+    apt:
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars:
+      packages:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
+
+  - name: Make symlinks for docker-compose
+    file:
+      src: '{{ item.src }}'
+      dest: '{{ item.dst }}'
+      owner: ubuntu
+      group: staff
+      state: link
+    with_items:
+      - {src: '/usr/libexec/docker/cli-plugins/docker-compose', dst: '/usr/local/bin/docker-compose'}
