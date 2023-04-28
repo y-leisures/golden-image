@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3
       - name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
         uses: hashicorp-contrib/setup-packer@v2
         with:
