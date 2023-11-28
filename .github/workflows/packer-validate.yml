@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Use latest Packer  # see: https://github.com/marketplace/actions/setup-packer
-        uses: hashicorp-contrib/setup-packer@v2
+        uses: hashicorp-contrib/setup-packer@v3
         with:
           packer-version: 1.8.3
       - name: Validate configuration files
