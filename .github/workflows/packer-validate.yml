@@ -17,5 +17,6 @@ jobs:
           packer-version: 1.11.2
       - name: Validate configuration files
         run: |
+          export GIT_TAG=$(git describe --tags --always)
           packer init .
           packer validate .
