@@ -35,7 +35,7 @@ locals {
 data "git-commit" "cwd-head" { }
 
 locals {
-  truncated_sha = clean_resource_name(substr(data.git-commit.cwd-head.hash, 0, 8))
+  truncated_sha = "${clean_resource_name(substr(data.git-commit.cwd-head.hash, 0, 8))}"
   author = data.git-commit.cwd-head.author
 }
 
