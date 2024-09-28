@@ -25,7 +25,8 @@ locals {
 }
 
 locals {
-  git_tag_or_commit = trimspace(shell("git describe --tags --always"))
+  # git_tag_or_commit = trimspace(shell("git describe --tags --always"))
+  git_tag_or_commit = env("AMI_SUFFIX")
 }
 
 source "amazon-ebs" "ubuntu" {
