@@ -25,7 +25,7 @@ locals {
 }
 
 locals {
-  git_tag_or_commit = file("./git_info.txt")
+  git_tag_or_commit = trimspace(file("./git_info.txt"))
 }
 
 source "amazon-ebs" "ubuntu" {
