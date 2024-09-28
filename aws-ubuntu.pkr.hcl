@@ -8,6 +8,10 @@ packer {
       version = "~> 1"
       source = "github.com/hashicorp/ansible"
     }
+    git = {
+      version = ">= 0.6.2"
+      source  = "github.com/ethanmdavidson/git"
+    }
   }
 }
 
@@ -24,13 +28,19 @@ locals {
   timestamp = regex_replace(timestamp(), "(\\d{4})-(\\d{2})-(\\d{2}).*", "$1$2$3")
 }
 
+# locals {
+#   # git_tag_or_commit = trimspace(shell("git describe --tags --always"))
+#   git_tag_or_commit = env("AMI_SUFFIX")
+# }
+data "git-commit" "cwd-head" { }
+
 locals {
-  # git_tag_or_commit = trimspace(shell("git describe --tags --always"))
-  git_tag_or_commit = env("AMI_SUFFIX")
+  truncated_sha = substr(data.git-commit.cwd-head.hash, 0, 8)
+  author = data.git-commit.cwd-head.author
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "${var.ami_prefix}-${local.timestamp}-${local.git_tag_or_commit}"
+  ami_name      = "${var.ami_prefix}-${local.timestamp}-${local.truncated_sha}"
   instance_type = "t3.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
