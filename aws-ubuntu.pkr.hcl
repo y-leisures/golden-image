@@ -16,10 +16,13 @@ variable "ami_prefix" {
   default = "bms-web"
 }
 
-locals {
-  timestamp = regex_replace(timestamp(), "[- TZ:]", "")
-}
+# locals {
+#   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
+# }
 
+locals {
+  timestamp = regex_replace(timestamp(), "(\\d{4})-(\\d{2})-(\\d{2}).*", "$1$2$3")
+}
 
 source "amazon-ebs" "ubuntu" {
   ami_name      = "${var.ami_prefix}-${local.timestamp}"
