@@ -17,6 +17,5 @@ jobs:
           packer-version: 1.10.3
       - name: Validate configuration files
         run: |
-          packer plugins install github.com/hashicorp/ansible
           packer init .
           packer validate .
