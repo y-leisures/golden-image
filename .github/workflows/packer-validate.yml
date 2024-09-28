@@ -18,5 +18,8 @@ jobs:
       - name: Validate configuration files
         run: |
           export AMI_SUFFIX=$(git describe --tags --always)
+          git describe --tags --always > git_info.txt
+          cat git_info.txt
+          echo "========================= Packer Validate ========================="
           packer init .
           packer validate .
