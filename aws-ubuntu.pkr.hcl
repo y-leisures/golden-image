@@ -24,8 +24,12 @@ locals {
   timestamp = regex_replace(timestamp(), "(\\d{4})-(\\d{2})-(\\d{2}).*", "$1$2$3")
 }
 
+locals {
+  git_tag_or_commit = trimspace(shell("git describe --tags --always"))
+}
+
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "${var.ami_prefix}-${local.timestamp}"
+  ami_name      = "${var.ami_prefix}-${local.timestamp}-${local.git_tag_or_commit}"
   instance_type = "t3.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
