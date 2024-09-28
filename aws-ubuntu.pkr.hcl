@@ -20,27 +20,12 @@ variable "ami_prefix" {
   default = "bms-web"
 }
 
-# locals {
-#   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
-# }
-
 locals {
   timestamp = regex_replace(timestamp(), "(\\d{4})-(\\d{2})-(\\d{2}).*", "$1$2$3")
 }
 
-# locals {
-#   # git_tag_or_commit = trimspace(shell("git describe --tags --always"))
-#   git_tag_or_commit = env("AMI_SUFFIX")
-# }
-data "git-commit" "cwd-head" { }
-
-locals {
-  truncated_sha = "${clean_resource_name(substr(data.git-commit.cwd-head.hash, 0, 8))}"
-  author = data.git-commit.cwd-head.author
-}
-
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "${var.ami_prefix}-${local.timestamp}-${local.truncated_sha}"
+  ami_name      = "${var.ami_prefix}-${local.timestamp}"
   instance_type = "t3.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
