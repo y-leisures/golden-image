@@ -8,6 +8,10 @@ packer {
       version = "~> 1"
       source = "github.com/hashicorp/ansible"
     }
+    git = {
+      version = ">= 0.6.2"
+      source  = "github.com/ethanmdavidson/git"
+    }
   }
 }
 
@@ -17,12 +21,15 @@ variable "ami_prefix" {
 }
 
 locals {
-  timestamp = regex_replace(timestamp(), "[- TZ:]", "")
+  timestamp = regex_replace(timestamp(), "(\\d{4})-(\\d{2})-(\\d{2}).*", "$1$2$3")
 }
 
+locals {
+  git_tag_or_commit = trimspace(file("./git_info.txt"))
+}
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "${var.ami_prefix}-${local.timestamp}"
+  ami_name      = "${var.ami_prefix}-${local.timestamp}-${local.git_tag_or_commit}"
   instance_type = "t3.micro"
   region        = "ap-northeast-1"
   source_ami_filter {
