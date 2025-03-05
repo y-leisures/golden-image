@@ -28,13 +28,30 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Use latest Packer # see: https://github.com/marketplace/actions/setup-packer
         uses: hashicorp-contrib/setup-packer@v3
         with:
           packer-version: 1.11.2
+      - name: GET GIT INFO with no tag
+        if: ${{ !startsWith(env.GITHUB_REF, 'refs/tags/') }}
+        run: |
+          git describe --tags --always --abbrev=7 > git_info.txt
+      - name: GET GIT INFO
+        if: startsWith(env.GITHUB_REF, 'refs/tags/v2*.**')
+        run: |
+          # Check whether the git tag is available
+          GITHUB_REF_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          if [ -z "$GITHUB_REF_NAME" ]; then
+            echo "No tag found, exiting..."
+            exit 1
+          fi
+          echo "GIT_TAG: $GITHUB_REF_NAME"
+          git describe --tags --always > git_info.txt
       - name: Validate configuration files
         run: |
-          git describe --tags --always > git_info.txt
           echo "========================= Packer build ========================="
           packer init .
           packer validate .
