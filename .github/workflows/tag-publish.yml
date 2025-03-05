@@ -33,6 +33,7 @@ jobs:
         run: |
           echo "GIT_TAG: $GITHUB_REF_NAME"
           git describe --tags --always --abbrev=4 > git_info.txt
+          cat git_info.txt
       - name: GET GIT INFO
         if: startsWith(env.GITHUB_REF, 'refs/tags/v2*.**')
         run: |
