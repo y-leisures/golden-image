@@ -26,6 +26,8 @@ jobs:
         uses: hashicorp-contrib/setup-packer@v3
         with:
           packer-version: 1.11.2
+      - name: DEBUG
+        run: export
       - name: GET GIT INFO
         run: |
           # Check whether the git tag is available
